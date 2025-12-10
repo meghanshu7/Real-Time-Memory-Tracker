@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Real-Time Memory Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="glass">
+    <h1>🧠 Real-Time Memory Allocation Tracker</h1>
+    <p class="subtitle">Visualize paging and segmentation dynamically</p>
+  </header>
+
+  <main>
+    <!-- Control panel -->
+    <section class="controls glass">
+      <h2>⚙️ Controls</h2>
+      <div class="control-grid">
+        <input type="text" id="segmentName" placeholder="Segment Name" />
+        <input type="number" id="segmentSize" placeholder="Segment Size (bytes)" />
+        <button onclick="allocateSegment()">Allocate</button>
+        <button onclick="deallocateSegment()">Deallocate</button>
+        <button onclick="resetMemory()">Reset</button>
+        
+        
+    </section>
+
+    <!-- Memory visualization -->
+    <section class="glass">
+      <h2>📦 Memory Visualization</h2>
+      <div id="memoryContainer"></div>
+    </section>
+
+    <!-- Tables -->
+    <section class="glass">
+      <h2>📋 Segment Table</h2>
+      <table id="segmentTable">
+        <thead>
+          <tr>
+            <th>Segment Name</th>
+            <th>Size (bytes)</th>
+            <th>Pages Allocated</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <section class="glass">
+      <h2>📄 Page Table</h2>
+      <table id="pageTable">
+        <thead>
+          <tr>
+            <th>Page ID</th>
+            <th>Status</th>
+            <th>Segment Name</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- Stats + chart -->
+    <section class="glass">
+      <h2>📊 Statistics & Chart</h2>
+      <div id="stats"></div>
+      <canvas id="chart" width="500" height="200"></canvas>
+    </section>
+  </main>
+
+  <footer class="glass">
+    <p>Made By Team</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
