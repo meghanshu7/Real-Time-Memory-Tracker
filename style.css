@@ -42,3 +42,146 @@ body::before {
   box-shadow: 0 4px 30px rgba(0,0,0,0.2);
   border: 1px solid rgba(255,255,255,0.3);
 }
+
+/* Header */
+header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  animation: fadeInDown 1s ease-out;
+}
+.subtitle {
+  font-size: 1.2rem;
+  color: #ddd;
+  animation: fadeInUp 1s ease-out;
+}
+
+/* Controls */
+.controls h2 {
+  margin-bottom: 10px;
+}
+.control-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+input, button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+}
+input {
+  background: rgba(255,255,255,0.2);
+  color: #fff;
+}
+input::placeholder {
+  color: #ccc;
+}
+button {
+  background: linear-gradient(135deg, #007bff, #00c6ff);
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* Memory grid */
+#memoryContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+.page {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  background-color: #2ECC40;
+  transition: transform 0.3s, background-color 0.3s;
+}
+.page:hover {
+  transform: scale(1.2);
+  background-color: #00c6ff;
+}
+.page.allocated {
+  background-color: #FF4136;
+  animation: pulse 1s ease-in-out;
+}
+.page.accessed {
+  animation: blink 0.5s alternate 3;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+th {
+  background: rgba(0,123,255,0.6);
+  color: #fff;
+}
+tr:nth-child(even) {
+  background: rgba(255,255,255,0.05);
+}
+
+/* Chart */
+canvas {
+  margin-top: 15px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 8px;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0% { transform: scale(1); background-color: #ff9999; }
+  50% { transform: scale(1.2); background-color: #ff4136; }
+  100% { transform: scale(1); background-color: #ff4136; }
+}
+@keyframes blink {
+  from { background-color: #FFD700; }
+  to { background-color: #FF4136; }
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  pointer-events: none;
+  animation: fadeIn 0.3s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
