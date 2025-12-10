@@ -143,3 +143,76 @@ function resetMemory() {
     initializeMemory();
     drawMemory();
 }
+
+// ------------------------
+// EXTRA FEATURES
+// ------------------------
+
+function accessAddress(addr) {
+    const pageIndex = Math.floor(addr / PAGE_SIZE);
+    const page = memory[pageIndex];
+    if (!page.allocated) {
+        stats.pageFaults++;
+        alert(`Page fault! Address ${addr} not allocated.`);
+    } else {
+        alert(`Access successful! Address ${addr} belongs to segment ${page.segmentName}.`);
+        // Highlight accessed page
+        const container = document.getElementById('memoryContainer');
+        container.children[pageIndex].style.backgroundColor = '#FFD700';
+        setTimeout(() => {
+            container.children[pageIndex].style.backgroundColor = '#FF4136';
+        }, 1000);
+    }
+    drawStats();
+}
+
+function compactMemory() {
+    let allocated = memory.filter(p => p.allocated);
+    let freeCount = TOTAL_PAGES - allocated.length;
+
+    memory = [];
+    for (let i = 0; i < allocated.length; i++) {
+        memory.push(allocated[i]);
+    }
+    for (let i = 0; i < freeCount; i++) {
+        memory.push({ allocated: false, segmentName: null });
+    }
+    alert('Memory compacted!');
+    drawMemory();
+}
+
+// ------------------------
+// FRAGMENTATION CALCULATIONS
+// ------------------------
+
+function calculateInternalFrag() {
+    let frag = 0;
+    segments.forEach(seg => {
+        frag += (PAGE_SIZE * seg.pages.length) - seg.size;
+    });
+    return frag;
+}
+
+function calculateExternalFrag() {
+    let freeBlocks = 0;
+    let currentBlock = 0;
+    memory.forEach(p => {
+        if (!p.allocated) {
+            currentBlock++;
+        } else {
+            if (currentBlock > 0) {
+                freeBlocks += currentBlock;
+                currentBlock = 0;
+            }
+        }
+    });
+    if (currentBlock > 0) freeBlocks += currentBlock;
+    return freeBlocks * PAGE_SIZE;
+}
+
+// ------------------------
+// INITIALIZE
+// ------------------------
+initializeMemory();
+drawMemory();
+
