@@ -81,3 +81,65 @@ function drawStats() {
         <p>External Fragmentation: ${calculateExternalFrag()} bytes</p>
     `;
 }
+
+// ------------------------
+// MEMORY MANAGEMENT
+// ------------------------
+
+function allocateSegment() {
+    const name = document.getElementById('segmentName').value.trim();
+    const size = parseInt(document.getElementById('segmentSize').value);
+
+    if (!name || isNaN(size) || size <= 0) {
+        alert('Enter valid segment name and size');
+        return;
+    }
+
+    const pagesNeeded = Math.ceil(size / PAGE_SIZE);
+    const freePages = memory.filter(p => !p.allocated);
+
+    if (freePages.length < pagesNeeded) {
+        alert('Not enough memory!');
+        stats.pageFaults++;
+        drawStats();
+        return;
+    }
+
+    let allocatedPages = [];
+    let count = 0;
+    for (let i = 0; i < memory.length && count < pagesNeeded; i++) {
+        if (!memory[i].allocated) {
+            memory[i].allocated = true;
+            memory[i].segmentName = name;
+            allocatedPages.push(i);
+            count++;
+        }
+    }
+
+    segments.push({ name: name, size: size, pages: allocatedPages });
+    stats.allocations++;
+    drawMemory();
+}
+
+function deallocateSegment() {
+    const name = document.getElementById('segmentName').value.trim();
+    if (!name) {
+        alert('Enter segment name to deallocate');
+        return;
+    }
+
+    segments = segments.filter(seg => seg.name !== name);
+    memory.forEach(p => {
+        if (p.segmentName === name) {
+            p.allocated = false;
+            p.segmentName = null;
+        }
+    });
+    stats.deallocations++;
+    drawMemory();
+}
+
+function resetMemory() {
+    initializeMemory();
+    drawMemory();
+}
